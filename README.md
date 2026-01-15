@@ -1,76 +1,67 @@
-# Système de gestion des alarmes (SGAUL)
-Cet API permet de gérer un système d'alarme d'un campus universitaire. Elle permet de retourner les actions nécessaires à faire en cas d'incendie à partir d'événements reçu. L'API dispose de deux services, le premier s'occupe de faire la gestion des incendies, le deuxième permet de visualiser les urgences.
+This project was carried out by a team of 5, from September 2025 to December 2025. It was forked from an existing private repository.
+# Alarm Management System
+This API manages a **fire alarm system** for a university campus. It provides the **necessary actions to take in case of fire** based on received events. The API includes **three services**: the first handles fire management, the second allows emergency visualization, and the third manages access control.
 
 
-## Intégration Docker
+## Starting the Project
 
-Un Dockerfile est également fournis si vous désirez essayer de rouler votre code sur les mêmes images docker que nous utiliserons.
+You can start the server (`ApplicationServer`).
 
-Pour ce faire:
+The `main()` method does not require any arguments.
+A Docker file is provided.
 
-```bash
-docker build -t application-glo4002 .
-docker run -t -p 8181:8181 application-glo4002
-```
-
-## Démarrer le projet
-
-Vous pouvez démarrer le serveur (`ApplicationServer`).
-
-Le `main()` ne demande pas d'argument.
-
-Vous pouvez également rouler le serveur via maven :
+You can also run the server via Maven :
 
 ```bash
 mvn clean install
 mvn exec:java -pl application
 ```
 
-## Utilisation
+## Usage
 
-La route du système de gestion d'incendie est la suivante.\
+The fire management system route is:\
 POST `/evenement-securite`
 ```java
 {
-  "nom": "<nom événement>"::string,
-  "heure": "<ISO-8601>"::string,
-  "zone": "<id zone>"::string,
+  "nom": "<event name>::string",
+  "heure": "<ISO-8601>::string",
+  "zone": "<zone id>::string",
   "parametres": [
-    {"parametre": "<nom paramètre>"::string, "valeur": "<valeur>"::string},
-    {"parametre": "<nom paramètre>"::string, "valeur": "<valeur>"::string},
-  ]::array(object({parametre, valeur})
+    {"parametre": "<parameter name>::string", "valeur": "<value>::string"},
+    {"parametre": "<parameter name>::string", "valeur": "<value>::string"}
+  ]
 }
 ```
-La documentation entière des différents évenements peut être trouvée [ici](https://projet2025.qualitelogicielle.ca/enonce/evenements/).\
-__Réponse__\
+Full documentation of the different events can be found [here](https://projet2025.qualitelogicielle.ca/enonce/evenements/).\
+__Response__\
 200 OK
 ```java
 {
   "actions": [
     {
-      "nom": "<nom action>"::string,
+      "nom": "<action name>::string",
       "parametres": [
-        { "parametre": "<nom paramètre>"::string, "valeur": "<valeur>"::string},
-        { "parametre": "<nom paramètre>"::string, "valeur": "<valeur>"::string},
+        {"parametre": "<parameter name>::string", "valeur": "<value>::string"},
+        {"parametre": "<parameter name>::string", "valeur": "<value>::string"}
       ]
     }
   ]
 }
 ```
-La documentation entière des différentes actions peut être trouvée [ici](https://projet2025.qualitelogicielle.ca/enonce/actions/).
+Full documentation of the different actions can be found [here](https://projet2025.qualitelogicielle.ca/enonce/actions/).
 
-## Fonctionnalités
+## Features
 
-- La gestion d'évenement de préalarme d'incendie.
-- La gestion d'évenement de préalarme expirée (découlant d'Incendie).
-- La gestion d'évenement de préalarme annulée.
-- La gestion d'évenement de préalarme confirmée (découlant d'Incendie).
-- La gestion d'évenement de présence de fumée.
-- La gestion d'évenement d'alarme d'incendie.
-- La gestion d'évenement d'incendie terminé.
-- La gestion de la base de donnée contenant les états actuelles du système.
-- La gestion de la base de donnée contenant les individus.
-- Le service de visualisation des urgences.
-- Le service de gestion des entrées/sorties dans les locaux.
-- La gestion de l'occupation des locaux.
-- La réinitialisation du système.
+- Handling pre-fire alarm events.
+- Handling expired pre-alarm events (from fire).
+- Handling canceled pre-alarm events.
+- Handling confirmed pre-alarm events (from fire).
+- Handling smoke detection events.
+- Handling fire alarm events.
+- Handling completed fire events.
+- Management of the database containing the current system states.
+- Management of the database containing individual users.
+- Emergency visualization service.
+- Service for managing entry/exit in buildings.
+- Management of building occupancy.
+- System reset.
